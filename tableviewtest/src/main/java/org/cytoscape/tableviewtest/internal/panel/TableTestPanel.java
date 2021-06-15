@@ -26,6 +26,7 @@ import org.cytoscape.model.CyTable;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.tableviewtest.internal.action.CreateDummyNodeTableAction;
 import org.cytoscape.tableviewtest.internal.action.CreateDummyUnassignedTableAction;
+import org.cytoscape.tableviewtest.internal.action.CreateSparklineGalFilteredAction;
 import org.cytoscape.util.swing.LookAndFeelUtil;
 import org.cytoscape.view.model.View;
 import org.cytoscape.view.model.table.CyTableView;
@@ -60,6 +61,9 @@ public class TableTestPanel extends JPanel implements CytoPanelComponent2, SetCu
 		JButton printGravityButton = new JButton("Print Column Gravities");
 		printGravityButton.addActionListener(e -> printColumnGravities());
 		
+		JButton chartButton = new JButton("Create Sparkline for GalFiltered");
+		chartButton.addActionListener(new CreateSparklineGalFilteredAction(registrar));
+		
 		var columnPresentationManager = registrar.getService(CyColumnPresentationManager.class);
 		columnCombo = new CyColumnComboBox(columnPresentationManager, Collections.emptyList());
 		
@@ -84,6 +88,7 @@ public class TableTestPanel extends JPanel implements CytoPanelComponent2, SetCu
 			.addComponent(createNodeTableButton)
 			.addComponent(createUnasTableButton)
 			.addComponent(printGravityButton)
+			.addComponent(chartButton)
 			.addComponent(columnCombo)
 			.addComponent(visibilityButton)
 			.addComponent(moveLeftButton)
@@ -95,6 +100,7 @@ public class TableTestPanel extends JPanel implements CytoPanelComponent2, SetCu
    			.addComponent(createNodeTableButton)
    			.addComponent(createUnasTableButton)
    			.addComponent(printGravityButton)
+   			.addComponent(chartButton)
 			.addComponent(columnCombo)
 			.addComponent(visibilityButton)
 			.addComponent(moveLeftButton)
