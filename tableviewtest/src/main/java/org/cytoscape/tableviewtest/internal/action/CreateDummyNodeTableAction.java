@@ -40,7 +40,7 @@ public class CreateDummyNodeTableAction extends AbstractCyAction {
 		
 		CyTable table = tableFactory.createTable("Dummy Node Table", "SUID", Long.class, true, false);
 		
-		networkTableManager.setTable(network, CyNode.class, CyNetwork.LOCAL_ATTRS, table);
+		networkTableManager.setTable(network, CyNode.class, "MyNamespace", table);
 		tableManager.addTable(table);
 		
 		// Create a table view
