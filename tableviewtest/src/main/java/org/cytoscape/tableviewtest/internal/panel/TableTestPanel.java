@@ -3,9 +3,7 @@ package org.cytoscape.tableviewtest.internal.panel;
 import static org.cytoscape.view.presentation.property.table.BasicTableVisualLexicon.COLUMN_GRAVITY;
 
 import java.awt.Component;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -27,6 +25,9 @@ import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.tableviewtest.internal.action.CreateDummyNodeTableAction;
 import org.cytoscape.tableviewtest.internal.action.CreateDummyUnassignedTableAction;
 import org.cytoscape.tableviewtest.internal.action.CreateSparklineGalFilteredAction;
+import org.cytoscape.tableviewtest.internal.action.PrintAllTablesAction;
+import org.cytoscape.tableviewtest.internal.action.PrintColumnGravitiesAction;
+import org.cytoscape.tableviewtest.internal.action.PrintTableViewsAction;
 import org.cytoscape.util.swing.LookAndFeelUtil;
 import org.cytoscape.view.model.View;
 import org.cytoscape.view.model.table.CyTableView;
@@ -52,17 +53,14 @@ public class TableTestPanel extends JPanel implements CytoPanelComponent2, SetCu
 	
 	
 	private void createContents() {
-		JButton createNodeTableButton = new JButton("Create Node Table");
-		createNodeTableButton.addActionListener(new CreateDummyNodeTableAction(registrar));
+		JButton createNodeTableButton = new JButton(new CreateDummyNodeTableAction(registrar));
+		JButton createUnasTableButton = new JButton(new CreateDummyUnassignedTableAction(registrar));
+		JButton chartButton = new JButton(new CreateSparklineGalFilteredAction(registrar));
 		
-		JButton createUnasTableButton = new JButton("Create Unassigned Table");
-		createUnasTableButton.addActionListener(new CreateDummyUnassignedTableAction(registrar));
+		JButton printGravityButton = new JButton(new PrintColumnGravitiesAction(registrar));
+		JButton printTablesButton = new JButton(new PrintAllTablesAction(registrar));
+		JButton printTableViewsButton = new JButton(new PrintTableViewsAction(registrar));
 		
-		JButton printGravityButton = new JButton("Print Column Gravities");
-		printGravityButton.addActionListener(e -> printColumnGravities());
-		
-		JButton chartButton = new JButton("Create Sparkline for GalFiltered");
-		chartButton.addActionListener(new CreateSparklineGalFilteredAction(registrar));
 		
 		var columnPresentationManager = registrar.getService(CyColumnPresentationManager.class);
 		columnCombo = new CyColumnComboBox(columnPresentationManager, Collections.emptyList());
@@ -87,8 +85,12 @@ public class TableTestPanel extends JPanel implements CytoPanelComponent2, SetCu
 		layout.setVerticalGroup(layout.createSequentialGroup()
 			.addComponent(createNodeTableButton)
 			.addComponent(createUnasTableButton)
-			.addComponent(printGravityButton)
 			.addComponent(chartButton)
+			
+			.addComponent(printGravityButton)
+			.addComponent(printTablesButton)
+			.addComponent(printTableViewsButton)
+			
 			.addComponent(columnCombo)
 			.addComponent(visibilityButton)
 			.addComponent(moveLeftButton)
@@ -99,8 +101,12 @@ public class TableTestPanel extends JPanel implements CytoPanelComponent2, SetCu
    		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING)
    			.addComponent(createNodeTableButton)
    			.addComponent(createUnasTableButton)
-   			.addComponent(printGravityButton)
    			.addComponent(chartButton)
+   			
+   			.addComponent(printGravityButton)
+			.addComponent(printTablesButton)
+			.addComponent(printTableViewsButton)
+   			
 			.addComponent(columnCombo)
 			.addComponent(visibilityButton)
 			.addComponent(moveLeftButton)
@@ -126,30 +132,6 @@ public class TableTestPanel extends JPanel implements CytoPanelComponent2, SetCu
 		columnCombo.setModel(model);
 	}
 	
-	private void printColumnGravities() {
-		var appManager = registrar.getService(CyApplicationManager.class);
-		var tableViewManager = registrar.getService(CyTableViewManager.class);
-		
-		var table = appManager.getCurrentTable();
-		var tableView = tableViewManager.getTableView(table);
-		
-		var cols = getColumnViewsSortedByGravity(tableView);
-		
-		for(var colView : cols) {
-			Double grav = colView.getVisualProperty(BasicTableVisualLexicon.COLUMN_GRAVITY);
-			System.out.printf("%d - %2.2f : %s\n", colView.getSUID(), grav, colView.getModel().getName());
-		}
-	}
-	
-	private List<View<CyColumn>> getColumnViewsSortedByGravity(CyTableView tableView) {
-		List<View<CyColumn>> cols =  new ArrayList<>(tableView.getColumnViews());
-		cols.sort((v1, v2) -> {
-			var grav1 = v1.getVisualProperty(BasicTableVisualLexicon.COLUMN_GRAVITY);
-			var grav2 = v2.getVisualProperty(BasicTableVisualLexicon.COLUMN_GRAVITY);
-			return Double.compare(grav1, grav2);
-		});
-		return cols;
-	}
 	
 	
 	private void toggleVisibility(CyColumn column) {
@@ -165,7 +147,7 @@ public class TableTestPanel extends JPanel implements CytoPanelComponent2, SetCu
 		var table = appManager.getCurrentTable();
 		var tableView = tableViewManager.getTableView(table);
 		
-		var cols = getColumnViewsSortedByGravity(tableView);
+		var cols = PrintColumnGravitiesAction.getColumnViewsSortedByGravity(tableView);
 		
 		var colView1 = tableView.getColumnView(column);
 		var index = cols.indexOf(colView1);

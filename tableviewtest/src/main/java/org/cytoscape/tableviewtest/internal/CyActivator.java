@@ -1,6 +1,12 @@
 package org.cytoscape.tableviewtest.internal;
 
-import static org.cytoscape.work.ServiceProperties.*;
+import static org.cytoscape.work.ServiceProperties.IN_EDGE_TABLE_TOOL_BAR;
+import static org.cytoscape.work.ServiceProperties.IN_NETWORK_TABLE_TOOL_BAR;
+import static org.cytoscape.work.ServiceProperties.IN_NODE_TABLE_TOOL_BAR;
+import static org.cytoscape.work.ServiceProperties.IN_UNASSIGNED_TABLE_TOOL_BAR;
+import static org.cytoscape.work.ServiceProperties.LARGE_ICON_ID;
+import static org.cytoscape.work.ServiceProperties.TOOLTIP;
+import static org.cytoscape.work.ServiceProperties.TOOL_BAR_GRAVITY;
 
 import java.util.Properties;
 
@@ -13,6 +19,7 @@ import org.cytoscape.service.util.AbstractCyActivator;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.tableviewtest.internal.action.CreateDummyNodeTableAction;
 import org.cytoscape.tableviewtest.internal.action.CreateDummyUnassignedTableAction;
+import org.cytoscape.tableviewtest.internal.action.PrintCurrentNetworkAction;
 import org.cytoscape.tableviewtest.internal.action.TestSetVisualPropertyAction;
 import org.cytoscape.tableviewtest.internal.panel.TableTestPanel;
 import org.cytoscape.tableviewtest.internal.renderer.DummyTableViewRenderer;
@@ -49,6 +56,7 @@ public class CyActivator extends AbstractCyActivator {
 		registerMenuAction(bc, new TestSetVisualPropertyAction(registrar));
 		registerMenuAction(bc, new CreateDummyNodeTableAction(registrar));
 		registerMenuAction(bc, new CreateDummyUnassignedTableAction(registrar));
+		registerMenuAction(bc, new PrintCurrentNetworkAction(registrar));
 		
 		TableTestPanel panel = new TableTestPanel(registrar);
 		registerService(bc, panel, CytoPanelComponent.class);
