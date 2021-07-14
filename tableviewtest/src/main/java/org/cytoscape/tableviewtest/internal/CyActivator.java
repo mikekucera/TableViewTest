@@ -21,6 +21,7 @@ import org.cytoscape.tableviewtest.internal.action.CreateDummyNodeTableAction;
 import org.cytoscape.tableviewtest.internal.action.CreateDummyUnassignedTableAction;
 import org.cytoscape.tableviewtest.internal.action.PrintCurrentNetworkAction;
 import org.cytoscape.tableviewtest.internal.action.PrintTableStyleAction;
+import org.cytoscape.tableviewtest.internal.action.PrintTableVisualPropertiesAction;
 import org.cytoscape.tableviewtest.internal.action.TestSetVisualPropertyAction;
 import org.cytoscape.tableviewtest.internal.panel.TableTestPanel;
 import org.cytoscape.tableviewtest.internal.renderer.DummyTableViewRenderer;
@@ -59,6 +60,7 @@ public class CyActivator extends AbstractCyActivator {
 		registerMenuAction(bc, new CreateDummyUnassignedTableAction(registrar));
 		registerMenuAction(bc, new PrintCurrentNetworkAction(registrar));
 		registerMenuAction(bc, new PrintTableStyleAction(registrar));
+		registerMenuAction(bc, new PrintTableVisualPropertiesAction(registrar));
 		
 		TableTestPanel panel = new TableTestPanel(registrar);
 		registerService(bc, panel, CytoPanelComponent.class);
