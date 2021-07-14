@@ -10,19 +10,19 @@ import org.cytoscape.service.util.CyServiceRegistrar;
 public class PrintCurrentNetworkAction extends AbstractCyAction {
 
 	private final CyServiceRegistrar registrar;
-    
-    public PrintCurrentNetworkAction(CyServiceRegistrar registrar) {
-        super("Print Current Network");
-        this.registrar = registrar;
-    }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        var appManager = registrar.getService(CyApplicationManager.class);
-        var currNet = appManager.getCurrentNetwork();
-        var currView = appManager.getCurrentNetworkView();
-        
-        System.out.println("Current Network: " + currNet);
-        System.out.println("Current NetView: " + currView);
-    }
+
+	public PrintCurrentNetworkAction(CyServiceRegistrar registrar) {
+		super("Print Current Network");
+		this.registrar = registrar;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		var appManager = registrar.getService(CyApplicationManager.class);
+		var currNet = appManager.getCurrentNetwork();
+		var currView = appManager.getCurrentNetworkView();
+
+		System.out.println("Current Network: " + currNet);
+		System.out.println("Current NetView: " + currView);
+	}
 }
